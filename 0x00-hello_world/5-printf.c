@@ -1,5 +1,6 @@
 #include <stdio.h>
 /**
+ * Return 0 if success.
  * Description: main - Prints out a string to stdout.
  */
 int main<void>
