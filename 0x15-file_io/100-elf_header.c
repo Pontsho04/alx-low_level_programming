@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "main.h"
 
 void check_elf(unsigned char *e_ident);
 void print_magic(unsigned char *e_ident);
@@ -175,7 +176,7 @@ void print_osabi(unsigned char *e_ident)
  */
 void print_abi(unsigned char *e_ident)
 {
-	printf(" ABI Version: %d\n", e_ident[EI_ABIVERSION]);
+	  printf(" ABI Version: %d\n", e_ident[EI_ABIVERSION]);
 }
 
 /**
@@ -232,7 +233,7 @@ void print_entry(unsigned long int e_entry, unsigned char *e_ident)
 		printf("%#x\n", (unsigned int)e_entry);
 
 				else
-				printf("%#Ix\n", e_entry);
+				printf("%#lx\n", e_entry);
 }
 
 /**
@@ -258,9 +259,9 @@ exit(98);
  * Description: if the file is not an ELF file or
  * the function fails - exit 98.
  */
-int main(__attribute__((__unused__)) argc, char *argv[])
+int main(int __attribute__((__unused__)) argc, char *argv[])
 {
-	ELF64_Ehdr *header;
+	Elf64_Ehdr *header;
 	int o, r;
 
 	o = open(argv[1], O_RDONLY);
@@ -269,14 +270,14 @@ int main(__attribute__((__unused__)) argc, char *argv[])
 		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	header = malloc(sizeof(ELF64_Ehdr));
+	header = malloc(sizeof(Elf64_Ehdr));
 	if (header == NULL)
 	{
 		close_elf(o);
 		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
 		exit(98);
 	}
-	r = read(o, header, sizeof(ELF64_Ehdr));
+	r = read(o, header, sizeof(Elf64_Ehdr));
 	if (r == -1)
 	{
 		free(header);
